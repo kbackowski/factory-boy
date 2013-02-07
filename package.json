@@ -1,0 +1,17 @@
+{
+  "name": "factory-boy",
+  "version": "0.0.0",
+  "description": "factory-boy",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kbackowski/factory-boy.git"
+  },
+  "author": "Kamil Backowski",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "054dd26fd46ce2332f60772d92d2c82b78324c92"
+}
