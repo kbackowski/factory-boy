@@ -2,13 +2,18 @@
   "name": "factory-boy",
   "version": "0.0.0",
   "description": "factory-boy",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -r coffee-script -R dot --ignore-leaks $(find test -name '*.coffee')"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/kbackowski/factory-boy.git"
+  },
+  "devDependencies": {
+    "coffee-script"  : "1.4.0",
+    "mocha"          : "1.8.1",
+    "should"         : "1.2.1"
   },
   "author": "Kamil Backowski",
   "license": "MIT",
