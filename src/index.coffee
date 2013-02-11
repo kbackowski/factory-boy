@@ -13,6 +13,9 @@ class BaseFactory
   initialize: ->
     new @class(@)
 
+  create: (callback) ->
+    @class.create(@, callback)
+
 
 Factory =
   factories: {}
@@ -21,12 +24,21 @@ Factory =
     @factories[name] = new BaseFactory(name, options, callback)
 
   build: (name, attrs = {}) ->
-    factory = @factories[name]
-    @extend(factory, attrs)
+    factory = @extend({}, @factories[name])
+    factory = @extend(factory, attrs)
     factory.initialize()
+
+  create: (name, attrs = {}, callback) ->
+    if typeof attrs == 'function'
+      callback = attrs
+
+    factory = @extend({}, @factories[name])
+    factory = @extend(factory, attrs)
+    factory.create(callback)
 
   extend: (source, object) ->
     for prop of object
       source[prop] = object[prop]
+    source
 
 exports.Factory = Factory
