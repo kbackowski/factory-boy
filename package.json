@@ -1,7 +1,7 @@
 {
   "name": "factory-boy",
-  "version": "0.0.0",
-  "description": "factory-boy",
+  "version": "0.0.1",
+  "description": "Node.js library for creating objects from factories, inspired by factory_girl.",
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha -r coffee-script -R dot --ignore-leaks $(find test -name '*.coffee')"
