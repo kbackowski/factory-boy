@@ -21,22 +21,24 @@ Factory.define 'user', class: User, ->
 describe Factory, ->
   describe '#build', ->
     it 'should use default values for attributes', ->
-      user = Factory.build('user')
-      user.should.have.property('first_name', 'John')
-      user.should.have.property('last_name', 'Smith')
+      Factory.build 'user', (err, user) ->
+        user.should.have.property('first_name', 'John')
+        user.should.have.property('last_name', 'Smith')
 
     it 'should overwrite default values for attributes with provided ones', ->
-      user = Factory.build('user', last_name: 'Brown')
-      user.should.have.property('last_name', 'Brown')
+      Factory.build 'user', last_name: 'Brown', (err, user) ->
+        user.should.have.property('last_name', 'Brown')
 
     it 'should not affect other factories', ->
-      Factory.build('user', last_name: 'Brown').should.have.property('last_name', 'Brown')
-      Factory.build('user', last_name: 'Williams').should.have.property('last_name', 'Williams')
+      Factory.build 'user', last_name: 'Brown', (err, user) ->
+        user.should.have.property('last_name', 'Brown')
+        Factory.build 'user', last_name: 'Williams', (err, user) ->
+          user.should.have.property('last_name', 'Williams')
 
     it 'should handle lazy attributes', ->
-      user = Factory.build('user')
-      user.should.have.property('random_number')
-      user.random_number.should.be.a('number')
+      Factory.build 'user', (err, user) ->
+        user.should.have.property('random_number')
+        user.random_number.should.be.a('number')
 
   describe '#create', ->
     it 'should use default values for attributes', (done) ->

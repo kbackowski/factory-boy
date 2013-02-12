@@ -10,8 +10,8 @@ class BaseFactory
 
   after: ->
 
-  initialize: ->
-    new @class(@)
+  initialize: (callback) ->
+    callback(null, new @class(@))
 
   create: (callback) ->
     @class.create(@, callback)
@@ -28,11 +28,14 @@ Factory =
   define: (name, options, callback) ->
     @factories[name] = new BaseFactory(options, callback)
 
-  build: (name, attrs = {}) ->
+  build: (name, attrs = {}, callback) ->
+    if typeof attrs == 'function'
+      callback = attrs
+
     factory = @extend(new BaseFactory({}, ->), @factories[name])
     factory = @extend(factory, attrs)
     factory.evaluateLazyAttributes()
-    factory.initialize()
+    factory.initialize(callback)
 
   create: (name, attrs = {}, callback) ->
     if typeof attrs == 'function'
