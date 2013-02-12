@@ -16,11 +16,30 @@ class BaseFactory
   create: (callback) ->
     @class.create(@, callback)
 
-  evaluateLazyAttributes: ->
+  evaluateLazyAttributes: (callback) ->
+    lazyFunctions = []
+
     for prop of @
       if @hasOwnProperty(prop) && typeof @[prop] == 'function' && prop != 'class'
-        @[prop] = @[prop]()
+        lazyFunctions.push(field: prop, func: @[prop])
 
+    if lazyFunctions.length
+      @series(lazyFunctions, callback)
+    else
+      callback()
+
+  series: (callbacks, last) ->
+    binding = @
+    
+    next = ->
+      callback = callbacks.shift()
+      if callback
+        callback.func.call binding, ->
+          binding[callback.field] = arguments[1]
+          next()
+      else
+        last()
+    next()
 
 Factory =
   factories: {}
@@ -34,8 +53,8 @@ Factory =
 
     factory = @extend(new BaseFactory({}, ->), @factories[name])
     factory = @extend(factory, attrs)
-    factory.evaluateLazyAttributes()
-    factory.initialize(callback)
+    factory.evaluateLazyAttributes -> 
+      factory.initialize(callback)
 
   create: (name, attrs = {}, callback) ->
     if typeof attrs == 'function'
@@ -43,8 +62,8 @@ Factory =
 
     factory = @extend(new BaseFactory({}, ->), @factories[name])
     factory = @extend(factory, attrs)
-    factory.evaluateLazyAttributes()
-    factory.create(callback)
+    factory.evaluateLazyAttributes ->
+      factory.create(callback)
 
   extend: (source, object) ->
     for prop of object

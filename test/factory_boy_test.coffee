@@ -9,7 +9,10 @@ User.create = (attrs = {}, callback) ->
 Factory.define 'user', class: User, ->
   @first_name = 'John'
   @last_name = 'Smith'
-  @random_number = -> Math.floor(Math.random()*10000) + 30000
+  @lazy_number1 = (callback) -> callback(null, 10)
+  @lazy_number2 = (callback) -> callback(null, 15)
+  @lazy_number3 = (callback) ->
+    callback(null, @lazy_number1 + @lazy_number2)
 
   @traits 'admin', ->
     # ...
@@ -35,10 +38,18 @@ describe Factory, ->
         Factory.build 'user', last_name: 'Williams', (err, user) ->
           user.should.have.property('last_name', 'Williams')
 
-    it 'should handle lazy attributes', ->
+    it 'should handle lazy attribute', ->
       Factory.build 'user', (err, user) ->
-        user.should.have.property('random_number')
-        user.random_number.should.be.a('number')
+        user.should.have.property('lazy_number1', 10)
+
+    it 'should handle multiple lazy attributes', ->
+      Factory.build 'user', (err, user) ->
+        user.should.have.property('lazy_number1', 10)
+        user.should.have.property('lazy_number2', 15)
+
+    it 'should handle lazy attribute that depends on other lazy attribute', ->
+      Factory.build 'user', (err, user) ->
+        user.should.have.property('lazy_number3', 25)
 
   describe '#create', ->
     it 'should use default values for attributes', (done) ->
@@ -59,8 +70,18 @@ describe Factory, ->
           user.should.have.property('last_name', 'Williams')
           done()
 
-    it 'should handle lazy attributes', (done) ->
+    it 'should handle lazy attribute', (done) ->
       Factory.create 'user', (err, user) ->
-        user.should.have.property('random_number')
-        user.random_number.should.be.a('number')
+        user.should.have.property('lazy_number1', 10)
+        done()
+
+    it 'should handle multiple lazy attributes', (done) ->
+      Factory.create 'user', (err, user) ->
+        user.should.have.property('lazy_number1', 10)
+        user.should.have.property('lazy_number2', 15)
+        done()
+
+    it 'should handle lazy attribute that depends on other lazy attribute', (done) ->
+      Factory.create 'user', (err, user) ->
+        user.should.have.property('lazy_number3', 25)
         done()
