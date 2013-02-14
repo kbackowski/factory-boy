@@ -2,9 +2,16 @@ require ('should')
 Factory = require('../src/index').Factory
 
 class User extends Object
+class Profile extends Object
 
 User.create = (attrs = {}, callback) ->
-  callback(null, attrs)
+  callback(null, new User(attrs))
+
+Profile.buildOne = (attrs) ->
+  new Profile(attrs)
+
+Profile.createOne = (attrs, callback) ->
+  callback(null, new Profile(attrs))
 
 Factory.define 'user', class: User, ->
   @first_name = 'John'
@@ -20,6 +27,14 @@ Factory.define 'user', class: User, ->
   @before 'save', ->
     # ...
 
+Factory.define 'profile', class: Profile, ->
+  @avatar_url = 'http://example.com/img.png'
+
+  @initializeWith = (attributes, callback) ->
+    callback(null, Profile.buildOne(attributes))
+
+  @createWith = (attributes, callback) ->
+    Profile.createOne(attributes, callback)
 
 describe Factory, ->
   describe '#build', ->
@@ -50,6 +65,10 @@ describe Factory, ->
     it 'should handle lazy attribute that depends on other lazy attribute', ->
       Factory.build 'user', (err, user) ->
         user.should.have.property('lazy_number3', 25)
+
+    it 'should allow for overwriting default initialization method', ->
+      Factory.build 'profile', (err, profile) ->
+        profile.should.have.property('avatar_url', 'http://example.com/img.png')
 
   describe '#create', ->
     it 'should use default values for attributes', (done) ->
@@ -85,3 +104,7 @@ describe Factory, ->
       Factory.create 'user', (err, user) ->
         user.should.have.property('lazy_number3', 25)
         done()
+
+    it 'should allow for overwriting default create method', ->
+      Factory.create 'profile', (err, profile) ->
+        profile.should.have.property('avatar_url', 'http://example.com/img.png')
