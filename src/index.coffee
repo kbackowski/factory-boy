@@ -1,10 +1,9 @@
 utils = require('./utils')
 
-reservedProperties = ['options', 'class', 'createWith', 'initializeWith']
+reservedProperties = ['options', 'createWith', 'initializeWith']
 
 class BaseFactory
   constructor: (@options = {}, callback) ->
-    @class = @options['class']
     callback.call(@)
     @
 
@@ -19,16 +18,14 @@ class BaseFactory
 
   after: ->
 
-  initializeWith: (attributes, callback) ->
-    callback(null, new @class(attributes))
-
-  createWith: (attributes, callback) ->
-    @class.create(attributes, callback)
-
 Factory =
   factories: {}
 
   define: (name, options, callback) ->
+    if typeof options == 'function'
+      callback = options
+      options = {}
+
     @factories[name] = new BaseFactory(options, callback)
 
   build: (name, attrs = {}, callback) ->
@@ -37,8 +34,8 @@ Factory =
 
     factory = utils.extend(new BaseFactory({}, ->), @factories[name])
     factory = utils.extend(factory, attrs)
-    @_evaluateLazyAttributes factory, ->
-      factory.initializeWith(factory, callback)
+    @_evaluateLazyAttributes factory, =>
+      factory.initializeWith?(factory.options.class, factory, callback) || @initializeWith(factory.options.class, factory, callback)
 
   create: (name, attrs = {}, callback) ->
     if typeof attrs == 'function'
@@ -46,8 +43,14 @@ Factory =
 
     factory = utils.extend(new BaseFactory({}, ->), @factories[name])
     factory = utils.extend(factory, attrs)
-    @_evaluateLazyAttributes factory, ->
-      factory.createWith(factory, callback)
+    @_evaluateLazyAttributes factory, =>
+      factory.createWith?(factory.options.class, factory, callback) || @createWith(factory.options.class, factory, callback)
+
+  initializeWith: (klass, attributes, callback) ->
+    callback(null, new klass(attributes))
+
+  createWith: (klass, attributes, callback) ->
+    klass.create(attributes, callback)
 
   _evaluateLazyAttributes: (factory, callback) ->
     lazyFunctions = []

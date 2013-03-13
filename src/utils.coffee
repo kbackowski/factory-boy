@@ -14,5 +14,9 @@ series = (binding, callbacks, last) ->
       last()
   next()
 
+capitalize = (string) ->
+  string.charAt(0).toUpperCase() + string.slice(1)
+
 exports.extend = extend
 exports.series = series
+exports.capitalize = capitalize

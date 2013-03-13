@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "coffee-script"  : "1.4.0",
+    "underscore"     : "1.4.4",
     "mocha"          : "1.8.1",
     "should"         : "1.2.1"
   },

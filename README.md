@@ -6,6 +6,7 @@ It's highly inspired by the fabulous [factory\_girl](http://github.com/thoughtbo
 
 It comes with support for :
 
+* associations
 * lazy attributes
 * defining factory initialization and creation methods
 
@@ -53,6 +54,20 @@ Additionally lazy functions are evaluated in the defined order.
 Factory.define 'user', class: User, ->
   @number1 = (callback) -> callback(null, 10)
   @number2 = (callback) -> callback(null, @number1 + 10)
+```
+
+## Associations
+
+```
+Factory.define 'user', class: User, ->
+  @first_name = 'John'
+  @association('profile')
+
+Factory.define 'profile', class: Profile, ->
+  @avatar_url = 'http://example.com/img.png'
+
+Factory.create 'user', (err, user) ->
+  console.log user.profile_id
 ```
 
 ## Contributing

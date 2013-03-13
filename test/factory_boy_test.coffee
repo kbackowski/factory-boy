@@ -32,11 +32,11 @@ describe Factory, ->
     Factory.define 'profile', class: Profile, ->
       @avatar_url = 'http://example.com/img.png'
 
-      @initializeWith = (attributes, callback) ->
-        callback(null, Profile.buildOne(attributes))
+      @initializeWith = (klass, attributes, callback) ->
+        callback(null, klass.buildOne(attributes))
 
-      @createWith = (attributes, callback) ->
-        Profile.createOne(attributes, callback)
+      @createWith = (klass, attributes, callback) ->
+        klass.createOne(attributes, callback)
   
   describe '#build', ->
     it 'should use default values for attributes', ->
