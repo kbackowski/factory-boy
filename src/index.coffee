@@ -1,3 +1,7 @@
+utils = require('./utils')
+
+reservedProperties = ['options', 'class', 'createWith', 'initializeWith']
+
 class BaseFactory
   constructor: (@options = {}, callback) ->
     @class = @options['class']
@@ -16,31 +20,6 @@ class BaseFactory
   createWith: (attributes, callback) ->
     @class.create(attributes, callback)
 
-  evaluateLazyAttributes: (callback) ->
-    lazyFunctions = []
-
-    for prop of @
-      if @hasOwnProperty(prop) && typeof @[prop] == 'function' && prop not in ['class', 'createWith', 'initializeWith']
-        lazyFunctions.push(field: prop, func: @[prop])
-
-    if lazyFunctions.length
-      @series(lazyFunctions, callback)
-    else
-      callback()
-
-  series: (callbacks, last) ->
-    binding = @
-    
-    next = ->
-      callback = callbacks.shift()
-      if callback
-        callback.func.call binding, ->
-          binding[callback.field] = arguments[1]
-          next()
-      else
-        last()
-    next()
-
 Factory =
   factories: {}
 
@@ -51,23 +30,30 @@ Factory =
     if typeof attrs == 'function'
       callback = attrs
 
-    factory = @extend(new BaseFactory({}, ->), @factories[name])
-    factory = @extend(factory, attrs)
-    factory.evaluateLazyAttributes ->
+    factory = utils.extend(new BaseFactory({}, ->), @factories[name])
+    factory = utils.extend(factory, attrs)
+    @_evaluateLazyAttributes factory, ->
       factory.initializeWith(factory, callback)
 
   create: (name, attrs = {}, callback) ->
     if typeof attrs == 'function'
       callback = attrs
 
-    factory = @extend(new BaseFactory({}, ->), @factories[name])
-    factory = @extend(factory, attrs)
-    factory.evaluateLazyAttributes ->
+    factory = utils.extend(new BaseFactory({}, ->), @factories[name])
+    factory = utils.extend(factory, attrs)
+    @_evaluateLazyAttributes factory, ->
       factory.createWith(factory, callback)
 
-  extend: (source, object) ->
-    for prop of object
-      source[prop] = object[prop] if object.hasOwnProperty(prop)
-    source
+  _evaluateLazyAttributes: (factory, callback) ->
+    lazyFunctions = []
+
+    for prop of factory
+      if factory.hasOwnProperty(prop) && typeof factory[prop] == 'function' && prop not in reservedProperties
+        lazyFunctions.push(field: prop, func: factory[prop])
+
+    if lazyFunctions.length
+      utils.series(factory, lazyFunctions, callback)
+    else
+      callback()
 
 exports.Factory = Factory
