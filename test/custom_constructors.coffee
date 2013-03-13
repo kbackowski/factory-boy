@@ -9,16 +9,17 @@ Profile.buildOne = (attrs) ->
 Profile.createOne = (attrs, callback) ->
   callback(null, new Profile(attrs))
 
-Factory.define 'profile', class: Profile, ->
-  @avatar_url = 'http://example.com/img.png'
-
-  @initializeWith = (attributes, callback) ->
-    callback(null, Profile.buildOne(attributes))
-
-  @createWith = (attributes, callback) ->
-    Profile.createOne(attributes, callback)
-
 describe Factory, ->
+  before ->
+    Factory.define 'profile', class: Profile, ->
+      @avatar_url = 'http://example.com/img.png'
+
+      @initializeWith = (attributes, callback) ->
+        callback(null, Profile.buildOne(attributes))
+
+      @createWith = (attributes, callback) ->
+        Profile.createOne(attributes, callback)
+
   describe '#createWith', ->
     it 'should pass attributes to factory', ->
       Factory.create 'profile', (err, profile) ->

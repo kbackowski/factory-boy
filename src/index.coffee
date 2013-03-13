@@ -8,6 +8,11 @@ class BaseFactory
     callback.call(@)
     @
 
+  association: (name, options = {}) ->
+    @["#{name}_id"] = (callback) ->
+      Factory.create name, (err, object) ->
+        callback(err, object.id)
+
   traits: ->
 
   before: ->

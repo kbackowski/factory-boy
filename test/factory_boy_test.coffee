@@ -13,30 +13,31 @@ Profile.buildOne = (attrs) ->
 Profile.createOne = (attrs, callback) ->
   callback(null, new Profile(attrs))
 
-Factory.define 'user', class: User, ->
-  @first_name = 'John'
-  @last_name = 'Smith'
-  @lazy_number1 = (callback) -> callback(null, 10)
-  @lazy_number2 = (callback) -> callback(null, 15)
-  @lazy_number3 = (callback) ->
-    callback(null, @lazy_number1 + @lazy_number2)
-
-  @traits 'admin', ->
-    # ...
-
-  @before 'save', ->
-    # ...
-
-Factory.define 'profile', class: Profile, ->
-  @avatar_url = 'http://example.com/img.png'
-
-  @initializeWith = (attributes, callback) ->
-    callback(null, Profile.buildOne(attributes))
-
-  @createWith = (attributes, callback) ->
-    Profile.createOne(attributes, callback)
-
 describe Factory, ->
+  before ->
+    Factory.define 'user', class: User, ->
+      @first_name = 'John'
+      @last_name = 'Smith'
+      @lazy_number1 = (callback) -> callback(null, 10)
+      @lazy_number2 = (callback) -> callback(null, 15)
+      @lazy_number3 = (callback) ->
+        callback(null, @lazy_number1 + @lazy_number2)
+
+      @traits 'admin', ->
+        # ...
+
+      @before 'save', ->
+        # ...
+
+    Factory.define 'profile', class: Profile, ->
+      @avatar_url = 'http://example.com/img.png'
+
+      @initializeWith = (attributes, callback) ->
+        callback(null, Profile.buildOne(attributes))
+
+      @createWith = (attributes, callback) ->
+        Profile.createOne(attributes, callback)
+  
   describe '#build', ->
     it 'should use default values for attributes', ->
       Factory.build 'user', (err, user) ->
