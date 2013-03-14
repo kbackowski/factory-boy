@@ -8,8 +8,11 @@ class BaseFactory
     @
 
   association: (name, options = {}) ->
+    factoryOptions = options.factory || {}
+    factoryName = factoryOptions.name || name
+
     @["#{name}_id"] = (callback) ->
-      Factory.create name, (err, object) ->
+      Factory.create factoryName, options, (err, object) ->
         callback(err, object.id)
 
   traits: ->
