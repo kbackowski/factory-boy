@@ -35,6 +35,40 @@ Factory.create 'user', (err, user) ->
   console.log user
 ```
 
+## Custom intialization and creation methods
+
+Factory Boy use initializeWith and createWith methods for building and creating factory objects :
+
+```
+initializeWith: (klass, attributes, callback) ->
+  callback(null, new klass(attributes))
+  
+createWith: (klass, attributes, callback) ->
+  klass.create(attributes, callback)
+```
+
+You can overwrite this methods on global level or per each factory :
+
+```
+# overwriting globally
+Factory = require('factory-boy').Factory
+
+Factory.initializeWith = (klass, attributes, callback) ->
+  callback(null, new klass.build(attributes))
+
+Factory.createWith = (klass, attributes, callback) ->
+  new klass.build(attributes).create(callback)
+  
+# overwriting per factory
+
+Factory.define 'user', class: User, ->
+  @initializeWith = (klass, attributes, callback) ->
+    callback(null, klass.build(attributes))
+
+  @createWith = (klass, attributes, callback) ->
+    new klass.build(attributes).create(callback)
+```
+
 ## Lazy attributes
 
 Attributes defined by functions are evaluated upon object intialization/creation. 
