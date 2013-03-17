@@ -1,7 +1,7 @@
 Factory Boy
 ===========
 
-Factory Boy is an library for Node.js which provides factories for objects creation. 
+Factory Boy is an library for Node.js which provides factories for objects creation.
 It's highly inspired by the fabulous [factory\_girl](http://github.com/thoughtbot/factory_girl) library for Ruby on Rails.
 
 It comes with support for :
@@ -25,8 +25,8 @@ Factory.define 'user', class: User, ->
   @first_name = 'John'
   @last_name = 'Smith'
   @pin = (callback) -> callback(null, Math.floor(Math.random()*10000))
-  
-  
+
+
 Factory.build 'user', (err, user) ->
   console.log user
 
@@ -42,7 +42,7 @@ Factory Boy use initializeWith and createWith methods for building and creating 
 ```
 initializeWith: (klass, attributes, callback) ->
   callback(null, new klass(attributes))
-  
+
 createWith: (klass, attributes, callback) ->
   klass.create(attributes, callback)
 ```
@@ -58,7 +58,7 @@ Factory.initializeWith = (klass, attributes, callback) ->
 
 Factory.createWith = (klass, attributes, callback) ->
   new klass.build(attributes).create(callback)
-  
+
 # overwriting per factory
 
 Factory.define 'user', class: User, ->
@@ -71,13 +71,13 @@ Factory.define 'user', class: User, ->
 
 ## Lazy attributes
 
-Attributes defined by functions are evaluated upon object intialization/creation. 
+Attributes defined by functions are evaluated upon object intialization/creation.
 Lazy functions context are set to factory instance so it's possible to use already defined attributes.
 
 ```
 Factory.define 'user', class: User, ->
   @first_name = 'John'
-  @salt = (callback) -> 
+  @salt = (callback) ->
     time = new Date()
     callback(null, "@{first_name}#{time}")
 ```
@@ -104,6 +104,31 @@ Factory.create 'user', (err, user) ->
   console.log user.profile_id
 ```
 
+When using associations you can pass field name as first parameter.
+
+```
+Factory.define 'user', class: User, ->
+  @first_name = 'John'
+  @association('user_profile_id', profile')
+
+```
+
+Also you can set values to associated factory.
+
+```
+Factory.define 'user', class: User, ->
+  @first_name = 'John'
+  @association('profile', avatar_url: 'http://example.com/img2.png')
+```
+
+By default Factory Boy will use id field from associated factory. This can be changed by passing factory options.
+
+```
+Factory.define 'user', class: User, ->
+  @first_name = 'John'
+  @association('profile', factory: {field: 'external_id'})
+```
+
 ## Contributing
 
 1. Fork it
@@ -113,7 +138,7 @@ Factory.create 'user', (err, user) ->
 npm install
 ```
 
-3. Make your changes on branch and make sure all tests pass 
+3. Make your changes on branch and make sure all tests pass
 
 ```
 npm test
