@@ -1,19 +1,30 @@
 utils = require('./utils')
 
-reservedProperties = ['options', 'createWith', 'initializeWith']
+reservedProperties = ['association', 'options', 'createWith', 'initializeWith']
 
-class BaseFactory
+class FactoryBase
   constructor: (@options = {}, callback) ->
     callback.call(@)
     @
 
-  association: (name, options = {}) ->
+  association: (field, name, options) ->
+    options ||= {}
+
+    if name == undefined
+      name = field
+      field = "#{(utils.toUnderscore(name))}_id"
+    if typeof name == "object"
+      options = name
+      name = field
+      field = "#{(utils.toUnderscore(name))}_id"
+
     factoryOptions = options.factory || {}
     factoryName = factoryOptions.name || name
+    factoryField = factoryOptions.field || "id"
 
-    @["#{name}_id"] = (callback) ->
+    @[field] = (callback) ->
       Factory.create factoryName, options, (err, object) ->
-        callback(err, object.id)
+        callback(err, object[factoryField])
 
   traits: ->
 
@@ -29,13 +40,13 @@ Factory =
       callback = options
       options = {}
 
-    @factories[name] = new BaseFactory(options, callback)
+    @factories[name] = new FactoryBase(options, callback)
 
   build: (name, attrs = {}, callback) ->
     if typeof attrs == 'function'
       callback = attrs
 
-    factory = utils.extend(new BaseFactory({}, ->), @factories[name])
+    factory = utils.extend(new FactoryBase({}, ->), @factories[name])
     factory = utils.extend(factory, attrs)
     @_evaluateLazyAttributes factory, =>
       factory.initializeWith?(factory.options.class, factory, callback) || @initializeWith(factory.options.class, factory, callback)
@@ -44,7 +55,7 @@ Factory =
     if typeof attrs == 'function'
       callback = attrs
 
-    factory = utils.extend(new BaseFactory({}, ->), @factories[name])
+    factory = utils.extend(new FactoryBase({}, ->), @factories[name])
     factory = utils.extend(factory, attrs)
     @_evaluateLazyAttributes factory, =>
       factory.createWith?(factory.options.class, factory, callback) || @createWith(factory.options.class, factory, callback)
@@ -68,3 +79,5 @@ Factory =
       callback()
 
 exports.Factory = Factory
+exports.FactoryBase = FactoryBase
+exports.utils = utils

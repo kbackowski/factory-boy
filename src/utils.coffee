@@ -17,6 +17,10 @@ series = (binding, callbacks, last) ->
 capitalize = (string) ->
   string.charAt(0).toUpperCase() + string.slice(1)
 
+toUnderscore = (string) ->
+  string.replace /([A-Z])/g, ($1) -> "_" + $1.toLowerCase()
+
 exports.extend = extend
 exports.series = series
 exports.capitalize = capitalize
+exports.toUnderscore = toUnderscore
