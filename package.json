@@ -1,6 +1,6 @@
 {
   "name": "factory-boy",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Node.js library for creating objects from factories, inspired by factory_girl.",
   "main": "lib/index.js",
   "scripts": {
