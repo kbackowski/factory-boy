@@ -15,6 +15,8 @@ Profile.createOne = (attrs, callback) ->
 
 describe Factory, ->
   before ->
+    Factory.factories = {}
+
     Factory.define 'user', class: User, ->
       @first_name = 'John'
       @last_name = 'Smith'
@@ -37,7 +39,11 @@ describe Factory, ->
 
       @createWith = (klass, attributes, callback) ->
         klass.createOne(attributes, callback)
-  
+
+  describe '#define', ->
+    it 'should throw when factory is alredy defined', ->
+      (-> Factory.define 'user').should.throw('Factory already defined: user')
+
   describe '#build', ->
     it 'should use default values for attributes', ->
       Factory.build 'user', (err, user) ->
@@ -70,6 +76,9 @@ describe Factory, ->
     it 'should allow for overwriting default initialization method', ->
       Factory.build 'profile', (err, profile) ->
         profile.should.have.property('avatar_url', 'http://example.com/img.png')
+
+    it 'should throw when factory is not defined', ->
+      (-> Factory.build 'test').should.throw('Factory not defined: test')
 
   describe '#create', ->
     it 'should use default values for attributes', (done) ->
@@ -109,3 +118,6 @@ describe Factory, ->
     it 'should allow for overwriting default create method', ->
       Factory.create 'profile', (err, profile) ->
         profile.should.have.property('avatar_url', 'http://example.com/img.png')
+
+    it 'should throw when factory is not defined', ->
+      (-> Factory.create 'test').should.throw('Factory not defined: test')

@@ -40,13 +40,13 @@ Factory =
       callback = options
       options = {}
 
-    @factories[name] = new FactoryBase(options, callback)
+    @_defineFactory(name, options, callback)
 
   build: (name, attrs = {}, callback) ->
     if typeof attrs == 'function'
       callback = attrs
 
-    factory = utils.extend(new FactoryBase({}, ->), @factories[name])
+    factory = utils.extend(new FactoryBase({}, ->), @_fetchFactory(name))
     factory = utils.extend(factory, attrs)
     @_evaluateLazyAttributes factory, =>
       factory.initializeWith?(factory.options.class, factory, callback) || @initializeWith(factory.options.class, factory, callback)
@@ -55,7 +55,7 @@ Factory =
     if typeof attrs == 'function'
       callback = attrs
 
-    factory = utils.extend(new FactoryBase({}, ->), @factories[name])
+    factory = utils.extend(new FactoryBase({}, ->), @_fetchFactory(name))
     factory = utils.extend(factory, attrs)
     @_evaluateLazyAttributes factory, =>
       factory.createWith?(factory.options.class, factory, callback) || @createWith(factory.options.class, factory, callback)
@@ -77,6 +77,13 @@ Factory =
       utils.series(factory, lazyFunctions, callback)
     else
       callback()
+
+  _defineFactory: (name, options, callback) ->
+    throw Error("Factory already defined: #{name}") if @factories[name]
+    @factories[name] = new FactoryBase(options, callback)
+
+  _fetchFactory: (name) ->
+    @factories[name] || throw Error("Factory not defined: #{name}")
 
 exports.Factory = Factory
 exports.FactoryBase = FactoryBase

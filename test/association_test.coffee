@@ -11,6 +11,8 @@ class Profile extends Object
 
 describe "Factory#association", ->
   before ->
+    Factory.factories = {}
+
     Factory.define 'admin', class: User, ->
       @id = 1
 

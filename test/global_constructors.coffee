@@ -4,6 +4,8 @@ Factory = _.clone(require('../src/index').Factory)
 
 describe Factory, ->
   before ->
+    Factory.factories = {}
+
     class Profile extends Object
 
     Profile.buildOne = (attrs) ->
@@ -11,13 +13,13 @@ describe Factory, ->
 
     Profile.createOne = (attrs, callback) ->
       callback(null, new Profile(attrs))
-  
+
     Factory.initializeWith = (klass, attributes, callback) ->
       callback(null, klass.buildOne(attributes))
 
     Factory.createWith = (klass, attributes, callback) ->
       klass.createOne(attributes, callback)
-    
+
     Factory.define 'profile', class: Profile, ->
       @avatar_url = 'http://example.com/img.png'
 

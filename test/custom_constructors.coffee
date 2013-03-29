@@ -11,6 +11,8 @@ Profile.createOne = (attrs, callback) ->
 
 describe Factory, ->
   before ->
+    Factory.factories = {}
+
     Factory.define 'profile', class: Profile, ->
       @avatar_url = 'http://example.com/img.png'
 
