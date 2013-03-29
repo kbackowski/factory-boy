@@ -26,6 +26,11 @@ class FactoryBase
       Factory.create factoryName, options, (err, object) ->
         callback(err, object[factoryField])
 
+  sequence: (field, sequenceCallback) ->
+    n = 1
+    @[field] = (callback) ->
+      sequenceCallback(n++, callback)
+
   traits: ->
 
   before: ->

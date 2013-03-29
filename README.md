@@ -90,6 +90,26 @@ Factory.define 'user', class: User, ->
   @number2 = (callback) -> callback(null, @number1 + 10)
 ```
 
+## Sequences
+
+Sequences can be used for creating record with unique attributes i.e. emails. They are creating lazy attribute for given field with iterator passed as first argument.
+
+```
+Factory.define 'user', class: User, ->
+  @sequence 'email', (n, callback) ->
+    callback(null, "test#{n}example.com")
+```
+
+First variable in callback will be increment for each records, starting from value 1. Therefore creating user factories will return records with unique emails.
+
+Sequences are also evaluated in the defined order.
+
+```
+Factory.define 'user', class: User, ->
+  @number1 = (callback) -> callback(null, 10)
+  @number2 = (callback) -> callback(null, @number1 + 10)
+```
+
 ## Associations
 
 ```
