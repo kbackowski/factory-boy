@@ -1,6 +1,8 @@
 Factory Boy
 ===========
 
+[![Build Status](https://travis-ci.org/kbackowski/factory-boy.png?branch=master)](https://travis-ci.org/kbackowski/factory-boy)
+
 Factory Boy is an library for Node.js which provides factories for objects creation.
 It's highly inspired by the fabulous [factory\_girl](http://github.com/thoughtbot/factory_girl) library for Ruby on Rails.
 
