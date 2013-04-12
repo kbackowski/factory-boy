@@ -4,17 +4,17 @@
   "description": "Node.js library for creating objects from factories, inspired by factory_girl.",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha -r coffee-script -R dot --ignore-leaks $(find test -name '*.coffee')"
+    "test": "mocha $(find test -name '*.coffee')"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/kbackowski/factory-boy.git"
   },
   "devDependencies": {
-    "coffee-script"  : "1.4.0",
+    "coffee-script"  : "1.6.2",
     "underscore"     : "1.4.4",
-    "mocha"          : "1.8.1",
-    "should"         : "1.2.1"
+    "mocha"          : "1.9.0",
+    "should"         : "1.2.2"
   },
   "author": "Kamil Backowski",
   "license": "MIT",
