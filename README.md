@@ -20,7 +20,7 @@ npm install factory-boy
 
 ## Defining factories
 
-```
+``` coffeescript
 Factory = require('factory-boy').Factory
 
 Factory.define 'user', class: User, ->
@@ -41,7 +41,7 @@ Factory.create 'user', (err, user) ->
 
 Factory Boy use initializeWith and createWith methods for building and creating factory objects :
 
-```
+``` coffeescript
 initializeWith: (klass, attributes, callback) ->
   callback(null, new klass(attributes))
 
@@ -51,7 +51,7 @@ createWith: (klass, attributes, callback) ->
 
 You can overwrite this methods on global level or per each factory :
 
-```
+``` coffeescript
 # overwriting globally
 Factory = require('factory-boy').Factory
 
@@ -76,7 +76,7 @@ Factory.define 'user', class: User, ->
 Attributes defined by functions are evaluated upon object intialization/creation.
 Lazy functions context are set to factory instance so it's possible to use already defined attributes.
 
-```
+``` coffeescript
 Factory.define 'user', class: User, ->
   @first_name = 'John'
   @salt = (callback) ->
@@ -86,7 +86,7 @@ Factory.define 'user', class: User, ->
 
 Additionally lazy functions are evaluated in the defined order.
 
-```
+``` coffeescript
 Factory.define 'user', class: User, ->
   @number1 = (callback) -> callback(null, 10)
   @number2 = (callback) -> callback(null, @number1 + 10)
@@ -96,7 +96,7 @@ Factory.define 'user', class: User, ->
 
 Sequences can be used for creating record with unique attributes i.e. emails. They are creating lazy attribute for given field with iterator passed as first argument.
 
-```
+``` coffeescript
 Factory.define 'user', class: User, ->
   @sequence 'email', (n, callback) ->
     callback(null, "test#{n}example.com")
@@ -106,7 +106,7 @@ First variable in callback will be increment for each records, starting from val
 
 Sequences are also evaluated in the defined order.
 
-```
+``` coffeescript
 Factory.define 'user', class: User, ->
   @number1 = (callback) -> callback(null, 10)
   @number2 = (callback) -> callback(null, @number1 + 10)
@@ -114,7 +114,7 @@ Factory.define 'user', class: User, ->
 
 ## Associations
 
-```
+``` coffeescript
 Factory.define 'user', class: User, ->
   @first_name = 'John'
   @association('profile')
@@ -128,7 +128,7 @@ Factory.create 'user', (err, user) ->
 
 When using associations you can pass field name as first parameter.
 
-```
+``` coffeescript
 Factory.define 'user', class: User, ->
   @first_name = 'John'
   @association('user_profile_id', profile')
@@ -137,7 +137,7 @@ Factory.define 'user', class: User, ->
 
 Also you can set values to associated factory.
 
-```
+``` coffeescript
 Factory.define 'user', class: User, ->
   @first_name = 'John'
   @association('profile', avatar_url: 'http://example.com/img2.png')
@@ -145,7 +145,7 @@ Factory.define 'user', class: User, ->
 
 By default Factory Boy will use id field from associated factory. This can be changed by passing factory options.
 
-```
+``` coffeescript
 Factory.define 'user', class: User, ->
   @first_name = 'John'
   @association('profile', factory: {field: 'external_id'})
