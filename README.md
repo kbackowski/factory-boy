@@ -81,7 +81,7 @@ Factory.define 'user', class: User, ->
   @first_name = 'John'
   @salt = (callback) ->
     time = new Date()
-    callback(null, "@{first_name}#{time}")
+    callback(null, "#{first_name}#{time}")
 ```
 
 Additionally lazy functions are evaluated in the defined order.
@@ -104,14 +104,6 @@ Factory.define 'user', class: User, ->
 
 First variable in callback will be increment for each records, starting from value 1. Therefore creating user factories will return records with unique emails.
 
-Sequences are also evaluated in the defined order.
-
-``` coffeescript
-Factory.define 'user', class: User, ->
-  @number1 = (callback) -> callback(null, 10)
-  @number2 = (callback) -> callback(null, @number1 + 10)
-```
-
 ## Associations
 
 ``` coffeescript
@@ -131,7 +123,7 @@ When using associations you can pass field name as first parameter.
 ``` coffeescript
 Factory.define 'user', class: User, ->
   @first_name = 'John'
-  @association('user_profile_id', profile')
+  @association('user_profile_id', 'profile')
 
 ```
 
