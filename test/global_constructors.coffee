@@ -1,18 +1,17 @@
-_ = require('underscore')._
-require ('should')
-Factory = _.clone(require('../src/index').Factory)
+require('should')
+Factory = require('../src/index').Factory
+
+class Profile extends Object
+
+Profile.buildOne = (attrs) ->
+  new Profile(attrs)
+
+Profile.createOne = (attrs, callback) ->
+  callback(null, new Profile(attrs))
 
 describe Factory, ->
-  before ->
+  beforeEach ->
     Factory.factories = {}
-
-    class Profile extends Object
-
-    Profile.buildOne = (attrs) ->
-      new Profile(attrs)
-
-    Profile.createOne = (attrs, callback) ->
-      callback(null, new Profile(attrs))
 
     Factory.initializeWith = (klass, attributes, callback) ->
       callback(null, klass.buildOne(attributes))

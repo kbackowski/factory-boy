@@ -1,4 +1,4 @@
-require ('should')
+require('should')
 Factory = require('../src/index').Factory
 
 class User extends Object
@@ -10,7 +10,7 @@ class Profile extends Object
     callback(null, new Profile(attrs))
 
 describe "Factory#association", ->
-  before ->
+  beforeEach ->
     Factory.factories = {}
 
     Factory.define 'admin', class: User, ->

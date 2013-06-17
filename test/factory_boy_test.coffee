@@ -1,4 +1,4 @@
-require ('should')
+require('should')
 Factory = require('../src/index').Factory
 
 class User extends Object
@@ -14,7 +14,7 @@ Profile.createOne = (attrs, callback) ->
   callback(null, new Profile(attrs))
 
 describe Factory, ->
-  before ->
+  beforeEach ->
     Factory.factories = {}
 
     Factory.define 'user', class: User, ->

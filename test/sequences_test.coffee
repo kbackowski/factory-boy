@@ -1,13 +1,12 @@
-_ = require('underscore')._
-require ('should')
-Factory = _.clone(require('../src/index').Factory)
+require('should')
+Factory = require('../src/index').Factory
+
+class User extends Object
+class Admin extends Object
 
 describe 'Factory sequences', ->
-  before ->
+  beforeEach ->
     Factory.factories = {}
-
-    class User extends Object
-    class Admin extends Object
 
     Factory.define 'user', class: User, ->
       @sequence 'email', (n, callback) ->
@@ -23,7 +22,8 @@ describe 'Factory sequences', ->
 
   it 'should increment by 1', ->
     Factory.build 'user', (err, user) ->
-      user.should.have.property('email', 'test2@example.com')
+      Factory.build 'user', (err, user) ->
+        user.should.have.property('email', 'test2@example.com')
 
   it 'should not conflict with other sequences', ->
     Factory.build 'admin', (err, admin) ->
