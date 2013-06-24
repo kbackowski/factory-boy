@@ -1,5 +1,4 @@
-require('should')
-Factory = require('../src/index').Factory
+require('./test_helper')
 
 class Profile extends Object
 
@@ -11,8 +10,6 @@ Profile.createOne = (attrs, callback) ->
 
 describe Factory, ->
   beforeEach ->
-    Factory.factories = {}
-
     Factory.initializeWith = (klass, attributes, callback) ->
       callback(null, klass.buildOne(attributes))
 

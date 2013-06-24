@@ -2,6 +2,12 @@ utils = require('./utils')
 
 reservedProperties = ['association', 'options', 'createWith', 'initializeWith']
 
+initializeWith = (klass, attributes, callback) ->
+  callback(null, new klass(attributes))
+
+createWith = (klass, attributes, callback) ->
+  klass.create(attributes, callback)
+
 class FactoryBase
   constructor: (@options = {}, callback) ->
     callback.call(@)
@@ -65,11 +71,10 @@ Factory =
     @_evaluateLazyAttributes factory, =>
       factory.createWith?(factory.options.class, factory, callback) || @createWith(factory.options.class, factory, callback)
 
-  initializeWith: (klass, attributes, callback) ->
-    callback(null, new klass(attributes))
-
-  createWith: (klass, attributes, callback) ->
-    klass.create(attributes, callback)
+  reload: ->
+    @createWith = createWith
+    @initializeWith = initializeWith
+    @factories = {}
 
   _evaluateLazyAttributes: (factory, callback) ->
     lazyFunctions = []
@@ -89,6 +94,8 @@ Factory =
 
   _fetchFactory: (name) ->
     @factories[name] || throw Error("Factory not defined: #{name}")
+
+Factory.reload()
 
 exports.Factory = Factory
 exports.FactoryBase = FactoryBase

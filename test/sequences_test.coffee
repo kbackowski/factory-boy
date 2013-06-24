@@ -1,13 +1,10 @@
-require('should')
-Factory = require('../src/index').Factory
+require('./test_helper')
 
 class User extends Object
 class Admin extends Object
 
 describe 'Factory sequences', ->
   beforeEach ->
-    Factory.factories = {}
-
     Factory.define 'user', class: User, ->
       @sequence 'email', (n, callback) ->
         callback(null, "test#{n}@example.com")

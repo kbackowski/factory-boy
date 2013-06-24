@@ -1,5 +1,4 @@
-require('should')
-Factory = require('../src/index').Factory
+require('./test_helper')
 
 class User extends Object
   @create: (attrs = {}, callback) ->
@@ -11,8 +10,6 @@ class Profile extends Object
 
 describe "Factory#association", ->
   beforeEach ->
-    Factory.factories = {}
-
     Factory.define 'admin', class: User, ->
       @id = 1
 
