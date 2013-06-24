@@ -14,10 +14,12 @@
     "url" : "https://github.com/kbackowski/factory-boy/issues"
   },
   "devDependencies": {
-    "coffee-script"  : "1.6.2",
-    "underscore"     : "1.4.4",
-    "mocha"          : "1.9.0",
-    "should"         : "1.2.2"
+    "coffee-script"       : "1.6.2",
+    "underscore"          : "1.4.4",
+    "mocha"               : "1.9.0",
+    "should"              : "1.2.2",
+    "coveralls"           : "2.0.16",
+    "mocha-lcov-reporter" : "0.0.1"
   },
   "author": "Kamil Backowski <kbackowski@gmail.com>",
   "license": "MIT",
