@@ -7,6 +7,13 @@ build = (callback) ->
       throw new Error(err) if err
       callback() if callback
 
+browserify = (callback) ->
+  build ->
+    exec './node_modules/.bin/browserify -s Factory lib/index.js > lib/factory-boy.js', (err, stdout, stderr) ->
+      throw new Error(err) if err
+      console.log 'Package for browser has been built as lib/factory-boy.js'
+      callback() if callback
+
 watch = (callback) ->
   exec 'mkdir -p lib', (err, stdout, stderr) ->
     throw new Error(err) if err
@@ -21,5 +28,6 @@ clean = (callback) ->
     callback() if callback
 
 task 'build', 'Build lib from src', -> build()
+task 'browserify', 'Build package for browser', -> browserify()
 task 'watch', 'Build and watch lib from src', -> watch()
 task 'clean', 'Remove generate lib folder', -> watch()
