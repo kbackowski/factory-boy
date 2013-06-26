@@ -21,7 +21,7 @@ npm install factory-boy
 ## Defining factories
 
 ``` coffeescript
-Factory = require('factory-boy').Factory
+Factory = require('factory-boy')
 
 Factory.define 'user', class: User, ->
   @first_name = 'John'
@@ -53,7 +53,7 @@ You can overwrite this methods on global level or per each factory :
 
 ``` coffeescript
 # overwriting globally
-Factory = require('factory-boy').Factory
+Factory = require('factory-boy')
 
 Factory.initializeWith = (klass, attributes, callback) ->
   callback(null, new klass.build(attributes))
