@@ -19,7 +19,8 @@
     "mocha"               : "1.9.0",
     "should"              : "1.2.2",
     "coveralls"           : "2.0.16",
-    "mocha-lcov-reporter" : "0.0.1"
+    "mocha-lcov-reporter" : "0.0.1",
+    "browserify"          : "2.22.0"
   },
   "author": "Kamil Backowski <kbackowski@gmail.com>",
   "license": "MIT",

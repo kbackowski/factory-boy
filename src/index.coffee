@@ -97,6 +97,4 @@ Factory =
 
 Factory.reload()
 
-exports.Factory = Factory
-exports.FactoryBase = FactoryBase
-exports.utils = utils
+module.exports = Factory
