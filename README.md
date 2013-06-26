@@ -28,10 +28,8 @@ Factory.define 'user', class: User, ->
   @last_name = 'Smith'
   @pin = (callback) -> callback(null, Math.floor(Math.random()*10000))
 
-
 Factory.build 'user', (err, user) ->
   console.log user
-
 
 Factory.create 'user', (err, user) ->
   console.log user
@@ -62,7 +60,6 @@ Factory.createWith = (klass, attributes, callback) ->
   new klass.build(attributes).create(callback)
 
 # overwriting per factory
-
 Factory.define 'user', class: User, ->
   @initializeWith = (klass, attributes, callback) ->
     callback(null, klass.build(attributes))
