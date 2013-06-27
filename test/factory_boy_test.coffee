@@ -22,12 +22,6 @@ describe Factory, ->
       @lazy_number3 = (callback) ->
         callback(null, @lazy_number1 + @lazy_number2)
 
-      @traits 'admin', ->
-        # ...
-
-      @before 'save', ->
-        # ...
-
     Factory.define 'profile', class: Profile, ->
       @avatar_url = 'http://example.com/img.png'
 

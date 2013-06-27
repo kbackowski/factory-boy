@@ -1,47 +1,11 @@
 utils = require('./utils')
-
-reservedProperties = ['association', 'options', 'createWith', 'initializeWith']
+FactoryBase = require('./factory_base')
 
 initializeWith = (klass, attributes, callback) ->
   callback(null, new klass(attributes))
 
 createWith = (klass, attributes, callback) ->
   klass.create(attributes, callback)
-
-class FactoryBase
-  constructor: (@options = {}, callback) ->
-    callback.call(@)
-    @
-
-  association: (field, name, options) ->
-    options ||= {}
-
-    if name == undefined
-      name = field
-      field = "#{(utils.toUnderscore(name))}_id"
-    if typeof name == "object"
-      options = name
-      name = field
-      field = "#{(utils.toUnderscore(name))}_id"
-
-    factoryOptions = options.factory || {}
-    factoryName = factoryOptions.name || name
-    factoryField = factoryOptions.field || "id"
-
-    @[field] = (callback) ->
-      Factory.create factoryName, options, (err, object) ->
-        callback(err, object[factoryField])
-
-  sequence: (field, sequenceCallback) ->
-    n = 1
-    @[field] = (callback) ->
-      sequenceCallback(n++, callback)
-
-  traits: ->
-
-  before: ->
-
-  after: ->
 
 Factory =
   factories: {}
@@ -60,7 +24,8 @@ Factory =
     factory = utils.extend(new FactoryBase({}, ->), @_fetchFactory(name))
     factory = utils.extend(factory, attrs)
     @_evaluateLazyAttributes factory, =>
-      factory.initializeWith?(factory.options.class, factory, callback) || @initializeWith(factory.options.class, factory, callback)
+      initializeMethod = factory.initializeWith || @initializeWith
+      initializeMethod(factory.options.class, factory.attributes(), callback)
 
   create: (name, attrs = {}, callback) ->
     if typeof attrs == 'function'
@@ -69,7 +34,8 @@ Factory =
     factory = utils.extend(new FactoryBase({}, ->), @_fetchFactory(name))
     factory = utils.extend(factory, attrs)
     @_evaluateLazyAttributes factory, =>
-      factory.createWith?(factory.options.class, factory, callback) || @createWith(factory.options.class, factory, callback)
+      createMethod = (factory.createWith || @createWith)
+      createMethod(factory.options.class, factory.attributes(), callback)
 
   reload: ->
     @createWith = createWith
@@ -79,9 +45,8 @@ Factory =
   _evaluateLazyAttributes: (factory, callback) ->
     lazyFunctions = []
 
-    for prop of factory
-      if factory.hasOwnProperty(prop) && typeof factory[prop] == 'function' && prop not in reservedProperties
-        lazyFunctions.push(field: prop, func: factory[prop])
+    for prop of factory.lazyProperties()
+      lazyFunctions.push(field: prop, func: factory[prop])
 
     if lazyFunctions.length
       utils.series(factory, lazyFunctions, callback)

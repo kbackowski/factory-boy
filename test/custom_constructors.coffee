@@ -1,4 +1,5 @@
 require('./test_helper')
+sinon = require('sinon')
 
 class Profile extends Object
 
@@ -23,3 +24,24 @@ describe Factory, ->
     it 'should pass attributes to factory', ->
       Factory.create 'profile', (err, profile) ->
         profile.should.have.property('avatar_url', 'http://example.com/img.png')
+
+    it 'should get only factory defined attributes', (done) ->
+      mock = sinon.mock(Factory._fetchFactory('profile'))
+      mock.expects('createWith').withArgs(Profile, avatar_url: 'http://example.com/img.png').once().callsArgWith(2, null)
+
+      Factory.create 'profile', ->
+        mock.verify().should.be.true
+        done()
+
+  describe '#initializeWith', ->
+    it 'should pass attributes to factory', ->
+      Factory.build 'profile', (err, profile) ->
+        profile.should.have.property('avatar_url', 'http://example.com/img.png')
+
+    it 'should get only factory defined attributes', (done) ->
+      mock = sinon.mock(Factory._fetchFactory('profile'))
+      mock.expects('initializeWith').withArgs(Profile, avatar_url: 'http://example.com/img.png').once().callsArgWith(2, null)
+
+      Factory.build 'profile', ->
+        mock.verify().should.be.true
+        done()

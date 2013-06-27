@@ -17,6 +17,7 @@
     "coffee-script"       : "1.6.2",
     "underscore"          : "1.4.4",
     "mocha"               : "1.9.0",
+    "sinon"               : "1.7.3",
     "should"              : "1.2.2",
     "coveralls"           : "2.0.16",
     "mocha-lcov-reporter" : "0.0.1",
