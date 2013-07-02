@@ -1,3 +1,4 @@
+require('./coverage')
 require('should')
 global.Factory = require('../src/index')
 
