@@ -4,7 +4,9 @@
   "description": "Node.js library for creating objects from factories, inspired by factory_girl.",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha $(find test -name '*.coffee')"
+    "test": "mocha $(find test -name '*.coffee')",
+    "coverage": "COVERAGE=1 mocha -R html-cov $(find test -name '*.coffee') > coverage.html",
+    "coveralls": "COVERAGE=1 mocha -R mocha-lcov-reporter $(find test -name '*.coffee') | coveralls"
   },
   "repository": {
     "type": "git",
@@ -15,6 +17,7 @@
   },
   "devDependencies": {
     "coffee-script"       : "1.6.2",
+    "coffee-coverage"     : "0.1.4",
     "underscore"          : "1.4.4",
     "mocha"               : "1.9.0",
     "sinon"               : "1.7.3",
