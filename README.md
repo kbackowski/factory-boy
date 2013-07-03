@@ -2,6 +2,7 @@ Factory Boy
 ===========
 
 [![Build Status](https://travis-ci.org/kbackowski/factory-boy.png?branch=master)](https://travis-ci.org/kbackowski/factory-boy)
+[![Coverage Status](https://coveralls.io/repos/kbackowski/factory-boy/badge.png?branch=master)](https://coveralls.io/r/kbackowski/factory-boy?branch=master)
 [![NPM version](https://badge.fury.io/js/factory-boy.png)](http://badge.fury.io/js/factory-boy)
 
 Factory Boy is an library for Node.js which provides factories for objects creation.
