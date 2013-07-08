@@ -2,7 +2,7 @@ utils = require('./utils')
 
 class FactoryBase
   constructor: (@options = {}, callback) ->
-    callback.call(@)
+    callback.call(@) if callback
     @
 
   association: (field, name, options) ->

@@ -10,18 +10,15 @@ createWith = (klass, attributes, callback) ->
 Factory =
   factories: {}
 
-  define: (name, options, callback) ->
-    if typeof options == 'function'
-      callback = options
-      options = {}
-
+  define: (name, options = {}, callback) ->
+    throw Error("Missing class parameter") unless options.class
     @_defineFactory(name, options, callback)
 
   build: (name, attrs = {}, callback) ->
     if typeof attrs == 'function'
       callback = attrs
 
-    factory = utils.extend(new FactoryBase({}, ->), @_fetchFactory(name))
+    factory = utils.extend(new FactoryBase, @_fetchFactory(name))
     factory = utils.extend(factory, attrs)
     @_evaluateLazyAttributes factory, =>
       initializeMethod = factory.initializeWith || @initializeWith
@@ -31,7 +28,7 @@ Factory =
     if typeof attrs == 'function'
       callback = attrs
 
-    factory = utils.extend(new FactoryBase({}, ->), @_fetchFactory(name))
+    factory = utils.extend(new FactoryBase, @_fetchFactory(name))
     factory = utils.extend(factory, attrs)
     @_evaluateLazyAttributes factory, =>
       createMethod = (factory.createWith || @createWith)

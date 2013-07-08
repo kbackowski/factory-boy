@@ -32,8 +32,11 @@ describe Factory, ->
         klass.createOne(attributes, callback)
 
   describe '#define', ->
-    it 'should throw when factory is alredy defined', ->
-      (-> Factory.define 'user').should.throw('Factory already defined: user')
+    it 'should throw error when factory is alredy defined', ->
+      (-> Factory.define 'user', class: User).should.throw('Factory already defined: user')
+    
+    it 'should throw error when class parameter is missing', ->
+      (-> Factory.define 'admin').should.throw('Missing class parameter')
 
   describe '#build', ->
     it 'should use default values for attributes', ->
