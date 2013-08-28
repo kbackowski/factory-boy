@@ -147,14 +147,14 @@ Factory.define 'user', class: User, ->
 1. Fork it
 2. Install dependencies
 
-```
-npm install
-```
+  ```
+  npm install
+  ```
 
 3. Make your changes on branch and make sure all tests pass
 
-```
-npm test
-```
+  ```
+  npm test
+  ```
 
 4. Submit your pull request !
