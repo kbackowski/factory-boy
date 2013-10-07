@@ -8,7 +8,7 @@ Profile.buildOne = (attrs) ->
 Profile.createOne = (attrs, callback) ->
   callback(null, new Profile(attrs))
 
-describe Factory, ->
+describe 'Factory', ->
   beforeEach ->
     Factory.initializeWith = (klass, attributes, callback) ->
       callback(null, klass.buildOne(attributes))

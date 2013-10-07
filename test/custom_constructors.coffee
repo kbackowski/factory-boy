@@ -9,7 +9,7 @@ Profile.buildOne = (attrs) ->
 Profile.createOne = (attrs, callback) ->
   callback(null, new Profile(attrs))
 
-describe Factory, ->
+describe 'Factory', ->
   beforeEach ->
     Factory.define 'profile', class: Profile, ->
       @avatar_url = 'http://example.com/img.png'

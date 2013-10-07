@@ -4,7 +4,7 @@ FactoryBase = require('../src/factory_base')
 
 class User extends Object
 
-describe FactoryBase, ->
+describe 'FactoryBase', ->
   describe '#attributes', ->
     it 'should return only factory defined attributes', ->
       factory = new FactoryBase class: User, ->

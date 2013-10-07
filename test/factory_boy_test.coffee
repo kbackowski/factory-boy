@@ -12,7 +12,7 @@ Profile.buildOne = (attrs) ->
 Profile.createOne = (attrs, callback) ->
   callback(null, new Profile(attrs))
 
-describe Factory, ->
+describe 'Factory', ->
   beforeEach ->
     Factory.define 'user', class: User, ->
       @first_name = 'John'
