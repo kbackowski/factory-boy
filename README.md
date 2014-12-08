@@ -98,7 +98,7 @@ Sequences can be used for creating record with unique attributes i.e. emails. Th
 ``` coffeescript
 Factory.define 'user', class: User, ->
   @sequence 'email', (n, callback) ->
-    callback(null, "test#{n}example.com")
+    callback(null, "test#{n}@example.com")
 ```
 
 First variable in callback will be increment for each records, starting from value 1. Therefore creating user factories will return records with unique emails.
