@@ -1,7 +1,7 @@
 {
-  "name": "factory-boy",
+  "name": "factory-bot",
   "version": "0.0.6",
-  "description": "Node.js library for creating objects from factories, inspired by factory_girl.",
+  "description": "Node.js library for creating objects from factories, inspired by Thoughtworks' factory_bot in Ruby.",
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha $(find test -name '*.coffee')",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kbackowski/factory-boy"
+    "url": "https://github.com/kbackowski/factory-bot"
   },
   "bugs" : {
     "url" : "https://github.com/kbackowski/factory-boy/issues"
