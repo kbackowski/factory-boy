@@ -9,9 +9,9 @@ build = (callback) ->
 
 browserify = (callback) ->
   build ->
-    exec './node_modules/.bin/browserify -s Factory lib/index.js > lib/factory-boy.js', (err, stdout, stderr) ->
+    exec './node_modules/.bin/browserify -s Factory lib/index.js > lib/factory-bot.js', (err, stdout, stderr) ->
       throw new Error(err) if err
-      console.log 'Package for browser has been built as lib/factory-boy.js'
+      console.log 'Package for browser has been built as lib/factory-bot.js'
       callback() if callback
 
 watch = (callback) ->

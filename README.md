@@ -1,11 +1,11 @@
-Factory Boy
+Factory Bot
 ===========
 
 [![Build Status](https://travis-ci.org/kbackowski/factory-boy.png?branch=master)](https://travis-ci.org/kbackowski/factory-boy)
 [![Coverage Status](https://coveralls.io/repos/kbackowski/factory-boy/badge.png?branch=master)](https://coveralls.io/r/kbackowski/factory-boy?branch=master)
 [![NPM version](https://badge.fury.io/js/factory-boy.png)](http://badge.fury.io/js/factory-boy)
 
-Factory Boy is an library for Node.js which provides factories for objects creation.
+Factory Bot (previously Factory Boy) is an library for Node.js which provides factories for objects creation.
 It's highly inspired by the fabulous [factory\_girl](http://github.com/thoughtbot/factory_girl) library for Ruby on Rails.
 
 It comes with support for :
@@ -17,13 +17,13 @@ It comes with support for :
 ## Installation
 
 ```
-npm install factory-boy
+npm install factory-bot
 ```
 
 ## Defining factories
 
 ``` coffeescript
-Factory = require('factory-boy')
+Factory = require('factory-bot')
 
 Factory.define 'user', class: User, ->
   @first_name = 'John'
@@ -39,7 +39,7 @@ Factory.create 'user', (err, user) ->
 
 ## Custom intialization and creation methods
 
-Factory Boy use initializeWith and createWith methods for building and creating factory objects :
+Factory Bot use initializeWith and createWith methods for building and creating factory objects :
 
 ``` coffeescript
 initializeWith: (klass, attributes, callback) ->
@@ -53,7 +53,7 @@ You can overwrite this methods on global level or per each factory :
 
 ``` coffeescript
 # overwriting globally
-Factory = require('factory-boy')
+Factory = require('factory-bot')
 
 Factory.initializeWith = (klass, attributes, callback) ->
   callback(null, new klass.build(attributes))
@@ -134,7 +134,7 @@ Factory.define 'user', class: User, ->
   @association('profile', avatar_url: 'http://example.com/img2.png')
 ```
 
-By default Factory Boy will use id field from associated factory. This can be changed by passing factory options.
+By default Factory Bot will use id field from associated factory. This can be changed by passing factory options.
 
 ``` coffeescript
 Factory.define 'user', class: User, ->
