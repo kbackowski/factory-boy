@@ -1,7 +1,7 @@
 {
   "name": "factory-boy",
   "version": "0.0.6",
-  "description": "Node.js library for creating objects from factories, inspired by factory_girl.",
+  "description": "Node.js library for creating objects from factories, inspired by Thoughtbot factory_bot.",
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha $(find test -name '*.coffee')",
